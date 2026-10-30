@@ -3,6 +3,8 @@
 
 export type Cover =
   | { kind: 'image'; src: string; w: number; h: number }
+  /** ảnh ghép nền trong suốt (điện thoại, cửa sổ trình duyệt) phủ kín thẻ 4:3, nền màu của thẻ hiện qua chỗ trong suốt */
+  | { kind: 'scene'; src: string; w: number; h: number }
   | { kind: 'kolhub' }
   | { kind: 'netevent' }
   | { kind: 'phapluat' }
@@ -177,7 +179,7 @@ export const products: Product[] = [
     year: '2026',
     tech: ['React Native', 'iOS', 'Android'],
     color: '#e8762f',
-    cover: { kind: 'mobile' },
+    cover: { kind: 'scene', src: '/covers/tkg-mobile-scene.webp', w: 1600, h: 1200 },
   },
   {
     id: 'thienkhoi-cdc',
@@ -291,7 +293,7 @@ export const products: Product[] = [
     year: '2026',
     tech: ['React Native', 'Expo'],
     color: '#1f6b57',
-    cover: { kind: 'thienviet' },
+    cover: { kind: 'scene', src: '/covers/thienviet-id-scene.webp', w: 1600, h: 1200 },
   },
   {
     id: 'antcms',
@@ -308,7 +310,7 @@ export const products: Product[] = [
     year: '2025',
     tech: ['Laravel', 'React'],
     color: '#c9a35d',
-    cover: { kind: 'image', src: '/covers/antcms.webp', w: 1600, h: 768 },
+    cover: { kind: 'scene', src: '/covers/antcms-scene.webp', w: 1600, h: 1200 },
   },
   {
     id: 'templates',
@@ -325,7 +327,7 @@ export const products: Product[] = [
     year: '2026',
     tech: ['Next.js'],
     color: '#2b2b2b',
-    cover: { kind: 'templates' },
+    cover: { kind: 'scene', src: '/covers/templates-scene.webp', w: 1600, h: 1200 },
   },
   {
     id: 'kolhub',
@@ -344,6 +346,7 @@ export const products: Product[] = [
     tech: ['React', 'PostgreSQL'],
     color: '#f47a24',
     cover: { kind: 'kolhub' },
+    page: { src: '/shots/kolhub.webp', w: 1200, h: 935, url: 'kol-hub-three.vercel.app/san' },
   },
 ];
 

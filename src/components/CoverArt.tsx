@@ -44,6 +44,10 @@ export default function CoverArt({ cover, alt, sizes, priority = false }: { cove
     case 'image':
       return <Image src={cover.src} alt={alt} fill sizes={sizes} priority={priority} className="object-cover object-top" />;
 
+    case 'scene':
+      // thường được Shot (ui.tsx) vẽ phủ kín thẻ; ở đây để phòng khi CoverArt được dùng trực tiếp
+      return <Image src={cover.src} alt={alt} fill sizes={sizes} priority={priority} className="object-contain" />;
+
     case 'kolhub':
       return (
         <div className="absolute inset-0 overflow-hidden bg-[linear-gradient(135deg,#fff4ea,#ffd6bb)]" role="img" aria-label={alt}>

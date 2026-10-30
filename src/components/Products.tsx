@@ -35,11 +35,17 @@ export default function Products({ lang }: { lang: Lang }) {
       </Reveal>
 
       <LayoutGroup>
-        <div role="group" aria-label={t.products.filterLabel} className="mt-10 flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none]">
+        {/* Dải nút lọc cuộn ngang trên màn hình hẹp. overflow-x-auto cắt cả chiều dọc, nên chừa khoảng đệm quanh nút
+            (bù lại bằng lề âm) để viền nút và lúc nút bị "hút" theo chuột không bị cắt mất */}
+        <div
+          role="group"
+          aria-label={t.products.filterLabel}
+          className="-mx-4 mt-7 flex gap-2 overflow-x-auto px-4 py-3 [scrollbar-width:none] lg:overflow-visible"
+        >
           {tabs.map((t) => {
             const on = filter === t.id;
             return (
-              <Magnetic key={t.id} strength={0.25} className="shrink-0">
+              <Magnetic key={t.id} strength={0.18} className="shrink-0">
               <button
                 type="button"
                 aria-pressed={on}
@@ -59,7 +65,7 @@ export default function Products({ lang }: { lang: Lang }) {
         </div>
       </LayoutGroup>
 
-      <ul className="mt-8 grid gap-x-6 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
+      <ul className="mt-7 grid gap-x-6 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
         <AnimatePresence initial={false} mode="popLayout">
           {list.map((p, i) => (
             <motion.li
@@ -71,37 +77,42 @@ export default function Products({ lang }: { lang: Lang }) {
               exit={{ opacity: 0, scale: 0.94, transition: { duration: 0.25 } }}
               transition={{ duration: 0.75, ease, delay: (i % 3) * 0.09 }}
             >
-              <button
-                type="button"
-                onClick={() => setOpen(p)}
-                aria-haspopup="dialog"
-                data-cursor="view"
-                data-cursor-label={t.products.cursor}
-                data-live={p.page ? '' : undefined}
-                className="group block w-full text-left"
-              >
-                <Tilt className="block rounded-[1.5rem]" max={6}>
-                  <span className="block overflow-hidden rounded-[1.5rem] ring-1 ring-black/5 transition-shadow duration-500 group-hover:shadow-[0_30px_60px_-30px_rgba(23,20,15,0.5)]">
-                    <Shot
-                      p={p}
-                      live="hover"
-                      alt={`${t.products.shotAlt} ${p.name}`}
-                      pageAlt={`${t.products.pageAlt} ${p.name}`}
-                      sizes="(min-width: 1024px) 21rem, (min-width: 768px) 40vw, 80vw"
-                    />
+              {/* Sản phẩm có trang công khai: bấm là mở trang thật ở thẻ mới.
+                  Sản phẩm chưa có trang công khai (app, hệ thống nội bộ): bấm mở hộp thoại chi tiết. */}
+              {p.link ? (
+                <a
+                  href={p.link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-cursor="view"
+                  data-cursor-label={t.hero.visit}
+                  data-live={p.page ? '' : undefined}
+                  className="group block w-full text-left"
+                >
+                  <CardBody p={p} lang={lang} catLabel={catLabel} />
+                  <span className="mt-4 inline-flex items-center gap-1.5 font-semibold text-accent-ink">
+                    {p.link.label}
+                    <ArrowUpRight className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    <span className="sr-only">{t.products.newTab}</span>
                   </span>
-                </Tilt>
-                <span className="mt-5 flex items-center gap-2 text-sm font-semibold text-ink-soft">
-                  {catLabel(p.category)}
-                  {p.status && <span className="rounded-full bg-paper-2 px-2 py-0.5 text-[0.78rem] text-ink">{p.status}</span>}
-                </span>
-                <span className="mt-1.5 block text-[1.5rem] leading-tight font-extrabold tracking-tight transition-colors duration-300 group-hover:text-accent-ink">{p.name}</span>
-                <span className="mt-2 block text-ink-soft">{p.pitch}</span>
-                <span className="mt-4 inline-flex items-center gap-1.5 font-semibold text-accent-ink">
-                  {t.products.more}
-                  <ArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
-                </span>
-              </button>
+                </a>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setOpen(p)}
+                  aria-haspopup="dialog"
+                  data-cursor="view"
+                  data-cursor-label={t.products.cursor}
+                  data-live={p.page ? '' : undefined}
+                  className="group block w-full text-left"
+                >
+                  <CardBody p={p} lang={lang} catLabel={catLabel} />
+                  <span className="mt-4 inline-flex items-center gap-1.5 font-semibold text-accent-ink">
+                    {t.products.more}
+                    <ArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
+                  </span>
+                </button>
+              )}
             </motion.li>
           ))}
         </AnimatePresence>
@@ -109,6 +120,35 @@ export default function Products({ lang }: { lang: Lang }) {
 
       <ProductDialog p={open} lang={lang} catLabel={catLabel} onClose={() => setOpen(null)} />
     </section>
+  );
+}
+
+// Phần chung của thẻ sản phẩm: ảnh, loại, tên, giới thiệu và phần tôi phụ trách
+function CardBody({ p, lang, catLabel }: { p: Product; lang: Lang; catLabel: (c: Category) => string }) {
+  const { t } = getContent(lang);
+  return (
+    <>
+      <Tilt className="block rounded-[1.5rem]" max={6}>
+        <span className="block overflow-hidden rounded-[1.5rem] ring-1 ring-black/5 transition-shadow duration-500 group-hover:shadow-[0_30px_60px_-30px_rgba(23,20,15,0.5)]">
+          <Shot
+            p={p}
+            live="hover"
+            alt={`${t.products.shotAlt} ${p.name}`}
+            pageAlt={`${t.products.pageAlt} ${p.name}`}
+            sizes="(min-width: 1024px) 21rem, (min-width: 768px) 40vw, 80vw"
+          />
+        </span>
+      </Tilt>
+      <span className="mt-5 flex items-center gap-2 text-sm font-semibold text-ink-soft">
+        {catLabel(p.category)}
+        {p.status && <span className="rounded-full bg-paper-2 px-2 py-0.5 text-[0.78rem] text-ink">{p.status}</span>}
+      </span>
+      <span className="mt-1.5 block text-[1.5rem] leading-tight font-extrabold tracking-tight transition-colors duration-300 group-hover:text-accent-ink">{p.name}</span>
+      <span className="mt-2 block text-ink-soft">{p.pitch}</span>
+      <span className="mt-2.5 block text-[0.92rem] text-ink-soft">
+        <span className="font-semibold text-ink">{t.products.role}:</span> {p.role}
+      </span>
+    </>
   );
 }
 

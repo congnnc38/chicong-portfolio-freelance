@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import type { ReactNode } from 'react';
 import type { Product } from '@/data/site';
 import CoverArt from './CoverArt';
@@ -64,13 +65,27 @@ export function Shot({
       />
     );
   }
+  const bg = `linear-gradient(160deg, color-mix(in oklab, ${p.color} 26%, var(--shot-a)), color-mix(in oklab, ${p.color} 48%, var(--shot-b)))`;
+  // Ảnh ghép (điện thoại, cửa sổ trình duyệt) đã có bóng đổ và nền trong suốt: phủ kín thẻ, không cần khung trắng
+  if (p.cover.kind === 'scene') {
+    return (
+      <div className={`relative aspect-[4/3] overflow-hidden ${className}`} style={{ background: bg }}>
+        <Image
+          src={p.cover.src}
+          alt={alt ?? p.name}
+          fill
+          sizes={sizes}
+          priority={priority}
+          className="object-contain transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-[1.5%] group-hover:scale-[1.03]"
+        />
+      </div>
+    );
+  }
   const ratio = p.cover.kind === 'image' ? p.cover.w / p.cover.h : 16 / 10;
   return (
     <div
       className={`relative grid aspect-[4/3] place-items-center overflow-hidden [container-type:size] ${className}`}
-      style={{
-        background: `linear-gradient(160deg, color-mix(in oklab, ${p.color} 26%, var(--shot-a)), color-mix(in oklab, ${p.color} 48%, var(--shot-b)))`,
-      }}
+      style={{ background: bg }}
     >
       <div
         className="relative overflow-hidden rounded-[max(8px,1.6cqw)] bg-white shadow-[0_3cqh_7cqh_-2cqh_rgba(23,20,15,0.45)] ring-1 ring-black/5 [container-type:size] transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-[1.5cqh] group-hover:scale-[1.03]"

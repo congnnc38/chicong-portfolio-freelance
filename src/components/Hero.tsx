@@ -13,8 +13,8 @@ import { Shot, btnLine, btnPrimary, ease } from './ui';
 // trên điện thoại, ảnh phía trước tự cuộn khi đi qua giữa màn hình.
 const fanSpec = [
   { id: 'gocnhinmoi', cls: 'left-0 top-[8%] w-[62%] -rotate-[7deg]', d: 0.35, depth: -18, float: 7, front: false },
-  { id: 'hien-mau', cls: 'right-0 top-[2%] w-[58%] rotate-[6deg]', d: 0.45, depth: -28, float: 8, front: false },
-  { id: 'kol-portal', cls: 'left-[16%] bottom-0 w-[70%]', d: 0.55, depth: 34, float: 6, front: true },
+  { id: 'kol-portal', cls: 'right-0 top-[2%] w-[58%] rotate-[6deg]', d: 0.45, depth: -28, float: 8, front: false },
+  { id: 'hien-mau', cls: 'left-[16%] bottom-0 w-[70%]', d: 0.55, depth: 34, float: 6, front: true },
 ];
 
 const fade = (d: number) => ({

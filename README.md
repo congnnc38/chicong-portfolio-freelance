@@ -2,7 +2,7 @@
 
 Trang giới thiệu sản phẩm để nhận dự án freelance. Khác với portfolio xin việc (v1), trang này nói về **sản phẩm đã làm và bài toán của khách hàng**, ít nói về công nghệ.
 
-Các phần trên trang: Đầu trang · Sản phẩm (lọc theo loại, bấm để xem chi tiết) · Dịch vụ · Quy trình · Về tôi · Hỏi đáp · Liên hệ (Zalo, điện thoại, email, LinkedIn).
+Các phần trên trang: Đầu trang · Sản phẩm (lọc theo loại; bấm vào sản phẩm có trang công khai thì mở trang thật ở thẻ mới, sản phẩm chưa có trang công khai thì mở hộp thoại chi tiết) · Dịch vụ · Quy trình · Về tôi · Hỏi đáp · Liên hệ (Zalo, điện thoại, email, LinkedIn).
 
 Làm bằng Next.js 15, Tailwind CSS 4 và Motion, font Plus Jakarta Sans (đủ dấu tiếng Việt).
 
@@ -57,8 +57,10 @@ page: { src: '/shots/vietpress.webp', w: 1200, h: 6131, url: 'vietpress.vn' },
 - Trên điện thoại (không rê chuột được), thẻ nào đi qua giữa màn hình thì tự cuộn.
 - Trong hộp thoại chi tiết, người xem tự cuộn trong khung để xem cả trang.
 - Máy bật "Giảm chuyển động" thì thẻ đứng yên, chỉ cuộn tay trong hộp thoại.
-- Ba ảnh xếp hình quạt ở phần đầu trang (Góc Nhìn Mới, Hiến máu, kol.gov.vn) cũng là ảnh chụp toàn trang: rê chuột lên ảnh nào thì ảnh đó tự cuộn; trên điện thoại ảnh phía trước tự cuộn. Muốn đổi sản phẩm hiện ở đây thì sửa `fanSpec` trong `src/components/Hero.tsx` (chọn sản phẩm có `page`).
-- Sản phẩm không có `page` (app di động, hệ thống nội bộ, trang cần đăng nhập) vẫn dùng ảnh bìa `cover` như cũ.
+- Ba ảnh xếp hình quạt ở phần đầu trang (Góc Nhìn Mới và kol.gov.vn phía sau, Hiến máu phía trước) cũng là ảnh chụp toàn trang: rê chuột lên ảnh nào thì ảnh đó tự cuộn; trên điện thoại ảnh phía trước tự cuộn. Muốn đổi sản phẩm hiện ở đây thì sửa `fanSpec` trong `src/components/Hero.tsx` (chọn sản phẩm có `page`).
+- Sản phẩm không có `page` dùng ảnh bìa `cover`. App di động (TKG, Thiên Việt ID), AntCMS và Bộ giao diện cho toà soạn dùng ảnh ghép
+  `{ kind: 'scene', src: '/covers/...-scene.webp', w: 1600, h: 1200 }`: màn hình thật (từ Figma, Figma Make, trang quản trị AntCMS,
+  các trang Góc Nhìn Mới) đặt trong khung điện thoại hoặc cửa sổ trình duyệt, nền trong suốt nên tự hợp với giao diện sáng và tối.
 
 Chụp lại một trang: chụp toàn trang ở khung rộng khoảng 1440px (Chrome: DevTools → Ctrl+Shift+P → "Capture full size screenshot"),
 thu về rộng 1200px, lưu WebP vào `public/shots/`, sửa `w`, `h` trong `site.ts`.
