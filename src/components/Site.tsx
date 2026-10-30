@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
+import { contact } from '@/data/site';
 import { getContent, home, type Lang } from '@/i18n';
 import Providers from './Providers';
 import Nav from './Nav';
@@ -8,7 +9,11 @@ import Hero from './Hero';
 import Products from './Products';
 import { About, Contact, Faq, Footer, Process, Services } from './Sections';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://chicong-freelance.vercel.app';
+// Địa chỉ trang dùng để tạo link tuyệt đối cho ảnh xem trước khi chia sẻ (Facebook, Zalo, Messenger...).
+// Ưu tiên biến NEXT_PUBLIC_SITE_URL, sau đó tên miền chính Vercel tự cung cấp lúc build, cuối cùng là tên miền hiện tại.
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : 'https://chicong-work.vercel.app');
 
 export function siteMetadata(lang: Lang): Metadata {
   const { t } = getContent(lang);
@@ -23,8 +28,11 @@ export function siteMetadata(lang: Lang): Metadata {
       type: 'website',
       locale: t.meta.locale,
       url: home[lang],
-      images: [{ url: '/covers/kol-portal.webp', width: 1600, height: 844, alt: 'kol.gov.vn' }],
+      siteName: contact.name,
+      // Ảnh JPG 1200x630: đúng khổ Facebook, Zalo, Messenger, LinkedIn đọc được (WebP nhiều nơi không hiện)
+      images: [{ url: `/og/og-${lang}.jpg`, width: 1200, height: 630, alt: t.meta.title, type: 'image/jpeg' }],
     },
+    twitter: { card: 'summary_large_image', title: t.meta.title, description: t.meta.description, images: [`/og/og-${lang}.jpg`] },
     icons: { icon: '/icon.svg' },
   };
 }

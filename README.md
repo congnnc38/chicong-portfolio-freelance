@@ -71,4 +71,7 @@ Không có dòng nào cho ảnh mới thì trang vẫn chạy, chỉ là không 
 
 1. Tạo repo mới trên GitHub và push thư mục này lên.
 2. Vào https://vercel.com/new, chọn **Import** repo vừa tạo, bấm **Deploy**.
-3. Thêm biến môi trường `NEXT_PUBLIC_SITE_URL` = link website, rồi deploy lại để ảnh xem trước khi chia sẻ link trỏ đúng domain.
+3. Ảnh xem trước khi chia sẻ link nằm ở `public/og/og-vi.jpg` và `public/og/og-en.jpg` (1200x630). Link tuyệt đối của ảnh tự lấy theo tên miền chính
+   của dự án trên Vercel. Nếu đặt biến môi trường `NEXT_PUBLIC_SITE_URL` thì biến này phải đúng tên miền đang dùng (ví dụ `https://chicong-work.vercel.app`).
+4. Facebook và Zalo lưu tạm ảnh xem trước của link đã từng chia sẻ. Sau khi deploy, vào https://developers.facebook.com/tools/debug/ dán link và bấm
+   "Scrape Again" để Facebook/Messenger lấy ảnh mới.

@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { contact } from '@/data/site';
 import { getContent, type Lang } from '@/i18n';
@@ -27,11 +28,16 @@ export default function Nav({ lang }: { lang: Lang }) {
         }`}
       >
         <nav aria-label={t.nav.label} className="mx-auto flex h-16 max-w-[76rem] items-center justify-between gap-3 px-5 sm:gap-6 sm:px-8">
-          <a href="#top" className="flex items-center gap-2.5 font-extrabold tracking-tight">
-            <span aria-hidden="true" className="grid h-8 w-8 place-items-center rounded-full bg-ink text-[0.72rem] text-paper">
-              CC
-            </span>
-            <span className="hidden sm:inline">{contact.shortName}</span>
+          <a href="#top" aria-label={contact.name} className="group flex items-center gap-2.5 font-extrabold tracking-tight">
+            <Image
+              src="/avatar.jpg"
+              alt=""
+              width={72}
+              height={72}
+              priority
+              className="h-9 w-9 rounded-full object-cover object-top ring-2 ring-line transition-[box-shadow] duration-300 group-hover:ring-accent"
+            />
+            <span aria-hidden="true" className="hidden sm:inline">{contact.shortName}</span>
           </a>
           <ul className="hidden items-center gap-1 lg:flex">
             {t.nav.links.map((l) => (
