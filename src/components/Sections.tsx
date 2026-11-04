@@ -183,7 +183,7 @@ export function Contact({ lang }: { lang: Lang }) {
   const email = { Icon: Mail, label: L.email, value: contact.email, href: t.contact.mail, ext: false };
   const zalo = { Icon: Chat, label: L.zalo, value: contact.phone, href: contact.zalo, ext: true };
   const phone = { Icon: Phone, label: L.phone, value: contact.phone, href: contact.phoneHref, ext: false };
-  const linkedin = { Icon: LinkedIn, label: L.linkedin, value: 'in/chicongzz', href: contact.linkedin, ext: true };
+  const linkedin = { Icon: LinkedIn, label: L.linkedin, value: 'in/ngonguyenchicong', href: contact.linkedin, ext: true };
   // Bản tiếng Anh đưa email lên đầu, bản tiếng Việt đưa Zalo lên đầu
   const items = lang === 'en' ? [email, linkedin, zalo, phone] : [zalo, phone, email, linkedin];
   const CtaIcon = t.cta.external ? Chat : Mail;
